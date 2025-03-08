@@ -1,0 +1,8 @@
+path: C:\Users\... #take to dataset
+train: images
+val: images
+
+names:
+  0: person
+  1: car
+  2: bike
