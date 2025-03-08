@@ -1,3 +1,2 @@
 .venv
-datasets/robo
-datasets/test_thermal_data
+data/FLIR_ADAS_v2

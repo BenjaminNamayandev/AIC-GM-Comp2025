@@ -6,10 +6,9 @@ model = YOLO("yolo11m.pt")  # or "yolov11.pt", whichever you have
 # Train the model
 model.train(
     data="config.yaml", 
-    imgsz=640,
+    imgsz=(640,512),
     batch=8,
     epochs=100,
     workers=1,
     cache=False,
-    device="cpu"  # or device=0 if you have a GPU
-)
+    device="cpu")
