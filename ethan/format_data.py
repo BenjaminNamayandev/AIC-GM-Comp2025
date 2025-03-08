@@ -25,8 +25,8 @@ with open(file_path, "r") as f:
         # Compute center coordinates and box size
         x_center = (x_min + x_max) / 2.0
         y_center = (y_min + y_max) / 2.0
-        box_width = x_max - x_min
-        box_height = y_max - y_min
+        box_width = abs(x_max - x_min)
+        box_height = abs(y_max - y_min)
 
         # Normalize the coordinates
         x_center_norm = x_center / IMAGE_WIDTH
