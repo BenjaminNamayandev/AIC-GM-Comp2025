@@ -1,50 +1,56 @@
 import os
 
-# constants
-IMAGE_WIDTH = 640
-IMAGE_HEIGHT = 512
+FILE_WIDTH = 640
+FILE_HEIGHT = 512
 
-# file path
-file_path = "data/test-thermal-data/labels_test_8_bit.txt"
 
-# Create a dictionary to adjust class ids (YOLO zero-indexed)
-class_map = {1: 0, 2: 1, 3: 2}
+def convert_coordinates(x_min, y_min, x_max, y_max):
+    x_center = (x_min + x_max) / (2 * FILE_WIDTH)
+    y_center = (y_min + y_max) / (2 * FILE_HEIGHT)
+    width = x_max - x_min / FILE_WIDTH
+    height = y_max - y_min / FILE_HEIGHT
+    return x_center, y_center, width, height
 
-# read annotations.txt file
-annotations = {}
-with open(file_path, "r") as f:
-    for line in f:
-        parts = line.strip().split()
-        if len(parts) != 6:
-            raise ValueError("Invalid line: %s" % line)
 
-        file_name, class_id, x_min, x_max, y_min, y_max = parts
-        class_id = class_map[int(class_id)]
-        x_min, x_max, y_min, y_max = map(float, [x_min, x_max, y_min, y_max])
+def process_annotations(input_file):
+    with open(input_file, "r") as file:
+        lines = file.readlines()
 
-        # Compute center coordinates and box size
-        x_center = (x_min + x_max) / 2.0
-        y_center = (y_min + y_max) / 2.0
-        box_width = abs(x_max - x_min)
-        box_height = abs(y_max - y_min)
-
-        # Normalize the coordinates
-        x_center_norm = x_center / IMAGE_WIDTH
-        y_center_norm = y_center / IMAGE_HEIGHT
-        width_norm = box_width / IMAGE_WIDTH
-        height_norm = box_height / IMAGE_HEIGHT
-
-        # Create or append to the list for the file
-        if file_name not in annotations:
-            annotations[file_name] = []
-        annotations[file_name].append(
-            f"{class_id} {x_center_norm:.6f} {y_center_norm:.6f} {width_norm:.6f} {height_norm:.6f}"
-        )
-
-# Write out the YOLO annotation files (one per image)
-for file_name, lines in annotations.items():
-    base, _ = os.path.splitext(file_name)
-    txt_file = base + ".txt"
-    with open("yolodata/labels/" + txt_file, "w") as f:
+        annotations = {}
         for line in lines:
-            f.write(line + "\n")
+            parts = line.strip().split(" ")
+            file_name = parts[0].replace(".jpeg", "")  # Remove .jpeg extension
+            class_id = int(parts[1]) - 1
+            x_min = int(parts[2])
+            y_min = int(parts[3])
+            x_max = int(parts[4])
+            y_max = int(parts[5])
+
+            x_center, y_center, width, height = convert_coordinates(
+                x_min, y_min, x_max, y_max
+            )
+
+            if file_name not in annotations:
+                annotations[file_name] = []
+            annotations[file_name].append(
+                f"{class_id} {x_center:.6f} {y_center:.6f} {width:.6f} {height:.6f}"
+            )
+
+        return annotations
+
+
+def save_annotations(annotations, output_dir):
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    for file_name, data in annotations.items():
+        output_file = os.path.join(output_dir, f"{file_name}.txt")
+        with open(output_file, "w") as file:
+            for annotation in data:
+                file.write(f"{annotation}\n")
+
+
+input_file = "train_labels_8_bit.txt"
+output_dir = "labels/train"
+annotations = process_annotations(input_file)
+save_annotations(annotations, output_dir)
