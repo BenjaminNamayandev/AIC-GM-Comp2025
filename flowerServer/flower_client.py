@@ -8,7 +8,7 @@ import torch
 model = YOLO("flowerServer/best-11s.pt")
 
 class YOLOClient(fl.client.NumPyClient):
-    def get_parameters(self):
+    def get_parameters(self, config=None):
         # Extract parameters from the PyTorch model as a list of numpy arrays.
         return [val.cpu().numpy() for val in model.model.state_dict().values()]
 
@@ -30,7 +30,7 @@ class YOLOClient(fl.client.NumPyClient):
         
         # Return updated parameters, number of examples used, and an empty dict for metrics.
         new_parameters = self.get_parameters()
-        num_examples = 100  # update this with your actual number of training examples
+        num_examples = 10  # update this with your actual number of training examples
         return new_parameters, num_examples, {}
 
     def evaluate(self, parameters, config):
@@ -42,7 +42,7 @@ class YOLOClient(fl.client.NumPyClient):
         # made it for a mAP with an IoU of 0.5 like they want
         mAP50 = results.metrics.get("mAP50") if hasattr(results, "metrics") else 0.0
 
-        num_examples = 50  # update with your actual count
+        num_examples = 10  # update with your actual count
         return float(mAP50), num_examples, {"mAP@0.5": mAP50}
 
 if __name__ == "__main__":
