@@ -1,0 +1,11 @@
+image_1.jpeg 3 85 210 160 266
+image_1.jpeg 3 19 204 86 255
+image_1.jpeg 2 316 251 367 312
+image_1.jpeg 2 221 237 238 280
+image_1.jpeg 1 221 200 253 268
+image_1.jpeg 1 315 196 359 303
+image_1.jpeg 1 473 189 511 284
+image_1.jpeg 1 514 198 545 300
+image_1.jpeg 1 553 194 590 277
+image_1.jpeg 1 589 191 625 309
+image_1.jpeg 2 316 251 367 312
