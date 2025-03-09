@@ -1,0 +1,7 @@
+150 epochs pytorch model base: 
+mAP@0.5: 0.7888
+Execution time: 0.007 seconds
+
+
+mAP@0.5: 0.7888                                                                                                                                                  
+Execution time: 0.0154 seconds

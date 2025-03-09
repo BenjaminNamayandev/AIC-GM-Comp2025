@@ -1,7 +1,9 @@
-train: C:/Users/mrben/Desktop/Projects/Hawkatuans/AIC-GM-Comp2025/data/train/images  ## REPLACE WITH YOUR PATH
-val: C:/Users/mrben/Desktop/Projects/Hawkatuans/AIC-GM-Comp2025/data/val/images  ## REPLACE WITH YOUR PATH
+path: C:\Users\mrben\Desktop\Projects\Hawkatuans\AIC-GM-Comp2025\8_bit_dataset # dataset root dir
+train: images/train # train images (relative to 'path') 128 images
+val: images/val # val images (relative to 'path') 128 images
 
+# Classes (80 COCO classes)
 names:
-  0: person
-  1: car
-  2: bike
+    0: person
+    1: bicycle
+    2: car
