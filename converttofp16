@@ -1,0 +1,27 @@
+import torch
+
+# If your model is from Ultralytics YOLO, you'll likely need to allowlist the custom class:
+# (This fixes the error: "Unsupported global: GLOBAL ultralytics.nn.tasks.DetectionModel...")
+try:
+    from ultralytics.nn.tasks import DetectionModel
+    torch.serialization.add_safe_globals([DetectionModel])
+except ImportError:
+    print("Warning: Could not import DetectionModel from ultralytics. "
+          "If your model is not from Ultralytics YOLO, you can ignore this. "
+          "Otherwise, install ultralytics:\n  pip install ultralytics")
+
+def main():
+    # 1. Load the float32 model from 'best-200n.pt'
+    #    NOTE: We are forcing PyTorch to load the entire model object (not just weights),
+    #    which can lead to code execution if the file is untrusted. Only do this if you trust the source.
+    model = torch.load("best-200n.pt", map_location="cpu")
+    
+    # 2. Convert the model to half precision
+    model.half()
+
+    # 3. Save the model as 'best-200n-fp16.pt'
+    torch.save(model, "best-200n-fp16.pt")
+    print("Converted best-200n.pt to FP16 and saved as best-200n-fp16.pt.")
+
+if __name__ == "__main__":
+    main()

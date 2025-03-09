@@ -65,7 +65,7 @@ if __name__ == "__main__":
     # Define paths for the original model checkpoint,
     # the FP16 quantized model checkpoint,
     # the image directory, and the output file.
-    input_model_path = "models/best-11n150.pt"        # Original model checkpoint
+    input_model_path = "models/best-200n_ncnn_model"        # Original model checkpoint
     quantized_model_path = "models/best-11n150_fp16.pt"  # Path for the FP16 quantized checkpoint
     image_dir = "ethan/data/test-thermal-data/test_images_8_bit"
     output_file = "detection_results/results.txt"
