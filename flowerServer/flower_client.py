@@ -1,10 +1,10 @@
 import flwr as fl
 from ultralytics import YOLO
 import torch
+# make sure to do pip install flwr ultralytics pytorch, i didnt add to requirements just yet
 
-# Load the trained YOLO model.
-# IMPORTANT: This works if best-11s.pt is in the current working directory.
-# Otherwise, change the path accordingly.
+
+# Load the trained YOLO nano or small model, I used whatever model was currently pushed to the repo
 model = YOLO("flowerServer/best-11s.pt")
 
 class YOLOClient(fl.client.NumPyClient):
@@ -24,13 +24,13 @@ class YOLOClient(fl.client.NumPyClient):
     def fit(self, parameters, config):
         self.set_parameters(parameters)
         
-        # Run one (local) epoch of training.
-        # Adjust dataset and training parameters as required.
+        # Run one (local) epoch of training. ( i dont wanna kill my laptop so i just did 1 epoch)
+        # Adjust dataset and training parameters as u see fit.
         model.train(data="config.yaml", epochs=1, imgsz=(640, 512), batch=8, workers=1)
         
         # Return updated parameters, number of examples used, and an empty dict for metrics.
         new_parameters = self.get_parameters()
-        num_examples = 10  # update this with your actual number of training examples
+        num_examples = 10  # update this with wutever the actual number of training examples are, i was using 10
         return new_parameters, num_examples, {}
 
     def evaluate(self, parameters, config):
@@ -42,7 +42,7 @@ class YOLOClient(fl.client.NumPyClient):
         # made it for a mAP with an IoU of 0.5 like they want
         mAP50 = results.metrics.get("mAP50") if hasattr(results, "metrics") else 0.0
 
-        num_examples = 10  # update with your actual count
+        num_examples = 10  # update with the actual count
         return float(mAP50), num_examples, {"mAP@0.5": mAP50}
 
 if __name__ == "__main__":
