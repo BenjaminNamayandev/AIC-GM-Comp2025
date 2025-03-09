@@ -35,5 +35,6 @@ echo "Running Python script with:"
 echo "Image Path: $IMAGE_PATH"
 echo "Output Path: $OUTPUT_PATH"
 
-# Run the Python script
-python /home/pi/abc/codes.py --image_folder "$IMAGE_PATH" --results_folder "$OUTPUT_PATH"
+
+echo "Running new pipeline using start_pipeline.sh"
+bash start_pipeline.sh "$IMAGE_PATH" "$OUTPUT_PATH"

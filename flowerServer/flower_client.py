@@ -1,11 +1,12 @@
 import flwr as fl
 from ultralytics import YOLO
 import torch
-# make sure to do pip install flwr ultralytics pytorch, i didnt add to requirements just yet
+# This is the client code that will be run on the client side. It will connect to the Flower server and train the model.
+# The client is responsible for training the model and sending the updated model parameters back to the server.
 
 
-# Load the trained YOLO nano or small model, I used whatever model was currently pushed to the repo
-model = YOLO("flowerServer/best-11s.pt")
+# loading the Yolo11 medium model, training date: 3/9/2025
+model = YOLO("flowerServer/yolo11m.pt")
 
 class YOLOClient(fl.client.NumPyClient):
     def get_parameters(self, config=None):
