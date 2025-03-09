@@ -2,7 +2,7 @@ import torch
 import torch.nn.utils.prune as prune
 from ultralytics import YOLO
 
-model = YOLO("models/best-11n150.pt").model
+model = YOLO("models/best-200n.pt").model
 
 for module in model.modules():
     if isinstance(module, torch.nn.Conv2d):
@@ -15,7 +15,7 @@ for module in model.modules():
         prune.remove(module, 'weight')
 
 # Save the pruned model (optional)
-torch.save(model.state_dict(), "best-11n150_pruned.pt")
+torch.save(model.state_dict(), "best-200n-pruned.pt")
 
 
 ### THIS IS WHERE THE MODEL GETS TURNED INTO AN ONNX
