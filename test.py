@@ -2,7 +2,7 @@ import os
 from ultralytics import YOLO
 
 # Path to your model
-model = YOLO("models/best-11s.pt")
+model = YOLO("models/best-11n150.pt")
 
 # Directory containing your test images
 image_dir = "ethan/data/test-thermal-data/test_images_8_bit"

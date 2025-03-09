@@ -1,6 +1,7 @@
 import numpy as np
 import argparse
 import os
+import time  # Import the time module
 
 def compute_iou(box1, box2):
     """Compute IoU between two bounding boxes."""
@@ -102,6 +103,9 @@ def read_ground_truths(file_path):
 
 
 def main():
+    # Record start time
+    start_time = time.time()
+
     parser = argparse.ArgumentParser(description="Compute mAP@0.5 for object detection results.")
     parser.add_argument("detection_path", type=str, help="Path to detections file.")
     parser.add_argument("label_path", type=str, help="Path to ground truths file.")
@@ -113,6 +117,11 @@ def main():
 
     map_score = mean_average_precision(detections, ground_truths, iou_threshold=args.iou)
     print(f"mAP@{args.iou}: {map_score:.4f}")
+
+    # Record end time and calculate the elapsed time
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Execution time: {elapsed_time:.4f} seconds")
 
 
 if __name__ == "__main__":

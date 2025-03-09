@@ -2,7 +2,7 @@ from ultralytics import YOLO
 
 if __name__ == '__main__':
     # Load a pretrained model (e.g., YOLOv11 medium)
-    model = YOLO("yolo11m.pt")  # or "yolov11.pt", whichever you have
+    model = YOLO("yolo11n.pt")  # or "yolov11.pt", whichever you have
 
     # Train the model using CUDA (GPU)
     model.train(
