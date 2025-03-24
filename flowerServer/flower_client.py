@@ -6,7 +6,7 @@ import torch
 
 
 # loading the Yolo11 medium model, training date: 3/9/2025
-model = YOLO("flowerServer/yolo11m.pt")
+model = YOLO("flowerServer/best-200n.pt")
 
 class YOLOClient(fl.client.NumPyClient):
     def get_parameters(self, config=None):
